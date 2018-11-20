@@ -2,8 +2,8 @@
 /**
  * TODO 请修改此处为你的 id 和 key
  */
-define('APP_ID', 'your_id');
-define('APP_KEY', 'your_key');
+define('APP_ID', '3');
+define('APP_KEY', '7a8e0efbbf3f4923e5343fd6897e4537');
 
 class fakala
 {
@@ -104,10 +104,8 @@ class fakala
     {
         $params = $_GET;
         if ($params['sign'] === $this->getSign($params, $this->key)) {
-            echo 'success';
             return true;
         } else {
-            echo 'fail';
             return false;
         }
     }

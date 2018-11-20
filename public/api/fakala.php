@@ -8,7 +8,7 @@ class PayApi
 
     public function __construct()
     {
-		$base = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') ."//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+		$base = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') ."://{$_SERVER['HTTP_HOST']}";
         $this->url_notify = $base. '/api/fakala/notify.php';
         $this->url_return = $base. '/api/fakala/return.php';
     }
@@ -22,16 +22,8 @@ class PayApi
      */
     function goPay($config, $out_trade_no, $subject, $amount_cent)
     {
-        if (!isset($config['api_id'])) {
-            throw new \Exception('请填写api_id');
-        }
-        if (!isset($config['api_key'])) {
-            throw new \Exception('请填写api_key');
-        }
         include_once 'fakala/api.php';
         $api = new \fakala();
-        $api->uid = $config['api_id'];
-        $api->key = $config['api_key'];
 
         $payway = strtolower($config['payway']);
 
@@ -43,8 +35,6 @@ class PayApi
         $isNotify = isset($config['isNotify']) && $config['isNotify'];
         include_once 'fakala/api.php';
         $api = new \fakala();
-        $api->uid = $config['api_id'];
-        $api->key = $config['api_key'];
 
         if ($isNotify) {
             $result = $api->notify_verify();
