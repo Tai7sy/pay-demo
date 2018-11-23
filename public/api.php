@@ -9,11 +9,11 @@
 require_once './api/fakala.php';
 
 $payway = isset($_GET['payway']) ? $_GET['payway'] : '';
-$amount = isset($_GET['amount']) ? (int)$_GET['amount'] : 0;
+$amount = isset($_GET['amount']) ? (float)$_GET['amount'] : 0;
 if ($payway == '' || $amount == 0) {
     die('<h1>请填写支付信息</h1>');
 }
-if ($amount < 1) {
+if ($amount < 0.01) {
     die('<h1>请给多一点吧</h1>');
 }
 
