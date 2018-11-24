@@ -6,7 +6,7 @@
  * Time: 21:21
  */
 
-require_once './api/fakala.php';
+require 'pay.php';
 
 $payway = isset($_GET['payway']) ? $_GET['payway'] : '';
 $amount = isset($_GET['amount']) ? (float)$_GET['amount'] : 0;

@@ -14,27 +14,29 @@ class PayApi
     }
 
     /**
-     * @param array $config 商户配置, 例 array('api_id'=>'','api_key'=>'','payway'=>'alipay')
+     * @param array $options 商户配置
      * @param string $out_trade_no 商户系统内订单号
      * @param string $subject 商品名称
      * @param int $amount_cent
      * @throws \Exception
      */
-    function goPay($config, $out_trade_no, $subject, $amount_cent)
+    function goPay($options, $out_trade_no, $subject, $amount_cent)
     {
-        include_once 'fakala/api.php';
-        $api = new \fakala();
+        include_once 'fakala/sdk.php';
+        $config = require 'fakala/config.php';
+        $api = new \fakala($config['gateway'], $config['api_id'], $config['api_key']);
 
-        $payway = strtolower($config['payway']);
+        $payway = strtolower($options['payway']);
 
         $api->goPay($payway, $out_trade_no, 0, $amount_cent, '', $this->url_return, $this->url_notify);
     }
 
-    function verify($config, $successCallback)
+    function verify($options, $successCallback)
     {
-        $isNotify = isset($config['isNotify']) && $config['isNotify'];
-        include_once 'fakala/api.php';
-        $api = new \fakala();
+        $isNotify = isset($options['isNotify']) && $options['isNotify'];
+        include_once 'fakala/sdk.php';
+        $config = require 'fakala/config.php';
+        $api = new \fakala($config['gateway'], $config['api_id'], $config['api_key']);
 
         if ($isNotify) {
             $result = $api->notify_verify();
@@ -48,6 +50,6 @@ class PayApi
             $fakala_no = $_REQUEST['order_no']; // API渠道订单号
             $successCallback($out_trade_no, $total_fee, $fakala_no);
         }
-        return false;
+        return $result;
     }
 }

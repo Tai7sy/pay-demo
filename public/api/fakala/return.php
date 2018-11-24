@@ -4,8 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>支付结果</title>
     <?php
-    require_once('api.php');
-    $api = new fakala();
+    require 'sdk.php';
+    $config = require 'config.php';
+    $api = new \fakala($config['gateway'], $config['api_id'], $config['api_key']);
 
     $no = $_GET['out_trade_no']; 			// 订单号 (提交支付时传递的当前系统订单号)
     $pay_order_no = $_GET['order_no']; 	// 支付系统内订单号

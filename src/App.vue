@@ -62,7 +62,7 @@
         if (this.chooseWay === '') {
           return this.alert('请选择支付方式');
         }
-        window.open('/api.php?payway=' + this.chooseWay + '&amount=' + this.amount);
+        window.open('/api/api.php?payway=' + this.chooseWay + '&amount=' + this.amount);
         return true;
 
       },

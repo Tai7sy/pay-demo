@@ -1,18 +1,21 @@
 <?php
-/**
- * TODO 请修改此处为你的 id 和 key
- */
-define('APP_ID', '3');
-define('APP_KEY', '7a8e0efbbf3f4923e5343fd6897e4537');
 
 class fakala
 {
 
-    public $uid = APP_ID;
-    public $key = APP_KEY;
+    public $gateway;
+    public $uid;
+    public $key;
 
+    public function __construct($gateway, $id, $key)
+    {
+        $this->gateway = $gateway;
+        $this->uid = $id;
+        $this->key = $key;
+    }
 
-    function getSignStr($params){
+    function getSignStr($params)
+    {
         ksort($params);
         $signStr = '';
         foreach ($params as $k => $v) {
@@ -65,7 +68,7 @@ class fakala
     <title>正在转到付款页</title>
 </head>
 <body onload="document.pay.submit()">
-<form name="pay" action="http://card.evil5.com/api/order" method="post">
+<form name="pay" action="' . $this->gateway . '/api/order" method="post">
     <input type="hidden" name="uid" value="' . $params['uid'] . '">
     <input type="hidden" name="out_trade_no" value="' . $params['out_trade_no'] . '">
     <input type="hidden" name="total_fee" value="' . $params['total_fee'] . '">
