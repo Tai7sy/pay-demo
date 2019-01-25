@@ -6,7 +6,6 @@
  * Time: 21:21
  */
 
-require 'pay.php';
 
 $payway = isset($_GET['payway']) ? $_GET['payway'] : '';
 $amount = isset($_GET['amount']) ? (float)$_GET['amount'] : 0;
@@ -18,8 +17,14 @@ if ($amount < 0.01) {
 }
 
 $config = array(
-	'payway'=>$payway
+    'payway' => $payway
 );
 
 $orderId = date("YmdHis") . mt_rand(10000, 99999);
-(new PayApi())->goPay($config, $orderId, '订单'.$orderId, $amount*100);
+
+try {
+    require 'pay.class.php';
+    (new PayApi())->goPay($config, $orderId, '订单' . $orderId, $amount * 100);
+} catch (Exception $e) {
+    echo '<h1>支付失败<br>' . $e->getMessage() . '</h1>';
+}

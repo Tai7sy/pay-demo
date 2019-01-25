@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Class PayApi
+ * 这里可以是你系统内部封装的支付类, 这里是个简单的封装例子
+ */
 class PayApi
 {
     //异步通知页面需要隐藏防止CC之类的验证导致返回失败
@@ -8,9 +12,9 @@ class PayApi
 
     public function __construct()
     {
-		$base = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') ."://{$_SERVER['HTTP_HOST']}";
-        $this->url_notify = $base. '/api/fakala/notify.php';
-        $this->url_return = $base. '/api/fakala/return.php';
+        $base = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . "://{$_SERVER['HTTP_HOST']}";
+        $this->url_notify = $base . '/api/fakala/notify.php';
+        $this->url_return = $base . '/api/fakala/return.php';
     }
 
     /**
@@ -25,10 +29,8 @@ class PayApi
         include_once 'fakala/sdk.php';
         $config = require 'fakala/config.php';
         $api = new \fakala($config['gateway'], $config['api_id'], $config['api_key']);
-
         $payway = strtolower($options['payway']);
-
-        $api->goPay($payway, $out_trade_no, 0, $amount_cent, '', $this->url_return, $this->url_notify);
+        $api->goPay($payway, $subject, $out_trade_no, 0, $amount_cent, '', $this->url_return, $this->url_notify);
     }
 
     function verify($options, $successCallback)
@@ -38,16 +40,25 @@ class PayApi
         $config = require 'fakala/config.php';
         $api = new \fakala($config['gateway'], $config['api_id'], $config['api_key']);
 
-        if ($isNotify) {
-            $result = $api->notify_verify();
-        } else {
-            $result = $api->return_verify();
-        }
+        if (isset($options['out_trade_no'])) {
+            $order = $api->get_order($options['out_trade_no']);
+            $result = @$order['status'] === 2;
+            $out_trade_no = @$order['api_out_no'];  // 本系统订单号
+            $total_fee = @$order['paid'];
+            $fakala_no = @$order['order_no']; // API渠道订单号
 
-        if ($result) {
+        } else {
+            if ($isNotify) {
+                $result = $api->notify_verify();
+            } else {
+                $result = $api->return_verify();
+            }
             $out_trade_no = $_REQUEST['out_trade_no'];  // 本系统订单号
             $total_fee = $_REQUEST['total_fee'];
             $fakala_no = $_REQUEST['order_no']; // API渠道订单号
+        }
+
+        if ($result) {
             $successCallback($out_trade_no, $total_fee, $fakala_no);
         }
         return $result;
