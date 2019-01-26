@@ -70,7 +70,7 @@ class fakala
     <title>正在转到付款页</title>
 </head>
 <body onload="document.pay.submit()">
-<form name="pay" action="' . $this->gateway . '/api/order" method="post">
+<form name="pay" action="' . $this->gateway . '/api/order/v2" method="post">
     <input type="hidden" name="uid" value="' . $params['uid'] . '">
     <input type="hidden" name="subject" value="' . $params['subject'] . '">
     <input type="hidden" name="out_trade_no" value="' . $params['out_trade_no'] . '">
