@@ -8,20 +8,20 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "muse-ui": "^3.0.1",
-    "vue": "^2.5.17"
+    "muse-ui": "^3.0.2",
+    "vue": "^2.6.10"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.1.1",
-    "@vue/cli-plugin-eslint": "^3.1.5",
-    "@vue/cli-service": "^3.1.4",
+    "@vue/cli-plugin-babel": "^3.7.0",
+    "@vue/cli-plugin-eslint": "^3.7.0",
+    "@vue/cli-service": "^3.7.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-import": "^1.11.0",
-    "eslint": "^5.8.0",
-    "eslint-plugin-vue": "^5.0.0-0",
-    "less": "^3.8.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.2.2",
+    "less": "^3.9.0",
     "less-loader": "^4.1.0",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {
     "root": true,

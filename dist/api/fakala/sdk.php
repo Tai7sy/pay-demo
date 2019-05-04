@@ -20,7 +20,7 @@ class fakala
         $signStr = '';
         foreach ($params as $k => $v) {
             if ('sign' !== $k) {
-                $signStr .= $k . '=' . ($v ? $v : '') . '&';
+                $signStr .= $k . '=' . $v . '&';
             }
         }
         return $signStr;
@@ -50,7 +50,7 @@ class fakala
     function goPay($payway, $subject, $out_trade_no, $cost, $total_fee, $attach, $return_url, $notify_url)
     {
         $params = [
-            'version' => '20190127',
+            'version' => '20190501',
             'uid' => (int)$this->uid,
             'subject' => $subject,
             'out_trade_no' => $out_trade_no,
@@ -63,12 +63,12 @@ class fakala
         ];
 
         $params['sign'] = $this->getSign($params, $this->key);
-
         die('
 <!doctype html>
 <html>
 <head>
-    <title>正在转到付款页</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>正在转到付款页</title>
 </head>
 <body onload="document.pay.submit()">
 <form name="pay" action="' . $this->gateway . '/api/order" method="post">
