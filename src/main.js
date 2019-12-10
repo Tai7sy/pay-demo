@@ -9,8 +9,10 @@ Vue.use(Dialog);
 Vue.use(Paper);
 Vue.use(TextField);
 Vue.use(Grid);
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
+  el: '#app',
   render: h => h(App),
-}).$mount('#app')
+  mounted: () => document.dispatchEvent(new Event("x-app-rendered")),
+});
